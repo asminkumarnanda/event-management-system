@@ -6,8 +6,12 @@
 @section('sectionHeading', 'Events')
 
 <div class="table-responsive small ">
-    <a href="{{ route('events.create') }}" class="btn btn-primary mb-4">Create Event</a>
+    @if (Auth::user()->hasRole('Admin'))
+        <a href="{{ route('events.create') }}" class="btn btn-primary mb-4">Create Event</a>
+    @endif
+
     <table class="table table-striped table-hover">
+
         <thead>
             <tr>
                 <th scope="col">Sl No.</th>
@@ -16,6 +20,9 @@
                 <th scope="col">Time</th>
                 <th scope="col">Total Slots</th>
                 <th scope="col">Available Slots</th>
+                @if (Auth::user()->hasRole('User'))
+                    <th scope="col">Already Booked Slots</th>
+                @endif
                 <th scope="col">Action</th>
 
             </tr>
@@ -30,17 +37,43 @@
                         <td scope="row">{{ date('h:i A', strtotime($event->time)) }}</td>
                         <td scope="row">{{ $event->total_slots }}</td>
                         <td scope="row">{{ $event->available_slots }}</td>
+
                         @if (Auth::user()->hasRole('Admin'))
                             <td><a href="{{ route('events.edit', $event->id) }}" class="btn btn-secondary p-1">Edit</a>
                                 <a href="{{ route('events.destroy', $event->id) }}"
                                     onclick="event.preventDefault();
                             document.getElementById('delete-form').submit();"
-                                    class="btn btn-dark p-1">Delete</a></td>
+                                    class="btn btn-dark p-1">Delete</a>
+                            </td>
                             <form id="delete-form" action="{{ route('events.destroy', $event->id) }}" method="POST"
                                 class="d-none">
                                 @csrf
                                 @method('DELETE')
                             </form>
+                        @else
+                            <td scope="row">{{ $event->total_slots - $event->available_slots }}</td>
+                            <td>
+                                @php
+                                    $bookings = auth()->user()->bookings;
+                                    $searchEventId = $event->id;
+                                    $exists = $bookings->contains('event_id', $searchEventId);
+                                @endphp
+
+                                @if ($exists)
+                                <button
+                                class="btn btn-success p-1">Booked</button>
+                                @else
+                                <a href="{{ route('bookings.store') }}"
+                                onclick="event.preventDefault();
+                        document.getElementById('book-form').submit();"
+                                class="btn btn-dark p-1">Book</a>
+                        </td>
+                        <form id="book-form" action="{{ route('bookings.store') }}" method="POST" class="d-none">
+                            @csrf
+                            <input type="hidden" value="{{ $event->id }}" name="event_id">
+                        </form>
+                                @endif
+                        
                         @endif
                     </tr>
                 @endforeach

@@ -1,7 +1,8 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Admin\EventController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\BookingController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,9 +26,9 @@ Route::get('/', [LoginController::class,'showLoginForm']);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::middleware(['auth', 'role:Admin'])->group(function () {
-  Route::resource('events', EventController::class);
+Route::middleware(['auth', 'permission'])->group(function () {
+  Route::resource('events',EventController::class);
 });
 Route::middleware(['auth', 'role:User'])->group(function () {
-
+  Route::resource('bookings',  BookingController::class);
 });
