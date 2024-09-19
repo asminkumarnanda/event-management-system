@@ -20,6 +20,9 @@
                 <th scope="col">Time</th>
                 <th scope="col">Total Slots</th>
                 <th scope="col">Available Slots</th>
+                @if (Auth::user()->hasRole('Admin'))
+                <th scope="col">Bookings</th>
+                @endif
                 @if (Auth::user()->hasRole('User'))
                     <th scope="col">Already Booked Slots</th>
                 @endif
@@ -39,6 +42,7 @@
                         <td scope="row">{{ $event->available_slots }}</td>
 
                         @if (Auth::user()->hasRole('Admin'))
+                        <td scope="row"><a href="{{ route('events.show',$event->id) }}" class="btn btn-secondary p-1">View Bookings</a></td>
                             <td><a href="{{ route('events.edit', $event->id) }}" class="btn btn-secondary p-1">Edit</a>
                                 <a href="{{ route('events.destroy', $event->id) }}"
                                     onclick="event.preventDefault();
@@ -71,6 +75,7 @@
                         <form id="book-form" action="{{ route('bookings.store') }}" method="POST" class="d-none">
                             @csrf
                             <input type="hidden" value="{{ $event->id }}" name="event_id">
+                            <input type="hidden" value="{{ auth()->user()->id }}" name="user_id">
                         </form>
                                 @endif
                         

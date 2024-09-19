@@ -28,7 +28,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::middleware(['auth', 'permission'])->group(function () {
   Route::resource('events',EventController::class);
-});
-Route::middleware(['auth', 'role:User'])->group(function () {
-  Route::resource('bookings',  BookingController::class);
+  Route::resource('bookings',BookingController::class);
+  Route::get('/bookings/create/{event}', [BookingController::class, 'create'])->name('bookings.create');
 });
