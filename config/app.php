@@ -16,7 +16,7 @@ return [
     |
     */
 
-    'name' => env('APP_NAME'),
+    'name' => env('APP_NAME','Event Booking System'),
 
     /*
     |--------------------------------------------------------------------------
