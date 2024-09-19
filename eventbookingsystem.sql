@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Sep 19, 2024 at 07:27 AM
+-- Generation Time: Sep 19, 2024 at 12:47 PM
 -- Server version: 10.4.27-MariaDB-log
 -- PHP Version: 8.1.10
 
@@ -36,14 +36,6 @@ CREATE TABLE `bookings` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `bookings`
---
-
-INSERT INTO `bookings` (`id`, `user_id`, `event_id`, `slot_number`, `created_at`, `updated_at`) VALUES
-(2, 3, 2, 1726721059, '2024-09-18 23:14:19', '2024-09-18 23:14:19'),
-(3, 2, 2, 1726728787, '2024-09-19 01:23:07', '2024-09-19 01:23:07');
-
 -- --------------------------------------------------------
 
 --
@@ -61,13 +53,6 @@ CREATE TABLE `events` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `events`
---
-
-INSERT INTO `events` (`id`, `name`, `description`, `date`, `time`, `total_slots`, `available_slots`, `created_at`, `updated_at`) VALUES
-(2, 'Product Show', NULL, '2024-09-19', '07:28:00', 3, 1, '2024-09-18 10:29:00', '2024-09-19 01:23:07');
 
 -- --------------------------------------------------------
 
@@ -415,13 +400,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
